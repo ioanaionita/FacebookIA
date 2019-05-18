@@ -15,7 +15,7 @@ namespace Facebook.Controllers
 {
     public class ProfileController : Controller
     {
-        private readonly ApplicationDbContext db;
+        private ApplicationDbContext db = ApplicationDbContext.Create();
         // GET: Profile
         public ActionResult Index(string name = "")
         {

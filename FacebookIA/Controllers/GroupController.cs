@@ -1,9 +1,11 @@
 ﻿using Facebook.Models;
 using FacebookDAW.Models;
+using FacebookIA.Data;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 
 namespace Facebook.Controllers
@@ -15,7 +17,7 @@ namespace Facebook.Controllers
         public ActionResult Index()
 
         {
-            if(User.Identity.GetUserId() == null)
+            if(User.FindFirst(ClaimTypes.NameIdentifier).Value == null)
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -27,7 +29,7 @@ namespace Facebook.Controllers
             else
             {
                 List<Group> groups = new List<Group>();
-                string userId = User.Identity.GetUserId();
+                string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 Profile profilCurrent = db.Profiles.SingleOrDefault(p => p.UserId == userId);
                 foreach (Group g in db.Groups)
                 {
@@ -47,7 +49,7 @@ namespace Facebook.Controllers
 
         public ActionResult New()
         {
-            string currentUser = User.Identity.GetUserId();
+            string currentUser = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (currentUser == null)
             {
                 return RedirectToAction("Login", "Account");
@@ -69,7 +71,7 @@ namespace Facebook.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string userId = User.Identity.GetUserId();
+                    string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                     Profile creatorProfile = db.Profiles.SingleOrDefault(p => p.UserId == userId);
                     group.Admins = new List<Profile>();
                     group.Profiles = new List<Profile>();
@@ -99,7 +101,7 @@ namespace Facebook.Controllers
         }
         public ActionResult JoinGroup(int id)
         {
-            string currentUser = User.Identity.GetUserId();
+            string currentUser = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Profile profilCurent = db.Profiles.SingleOrDefault(p => p.UserId == currentUser);
             Group currentGroup = db.Groups.Find(id);
             currentGroup.Profiles.Add(profilCurent);

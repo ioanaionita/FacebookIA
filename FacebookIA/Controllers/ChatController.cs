@@ -21,7 +21,7 @@ namespace Facebook.Controllers
         // GET: Chat
         public ActionResult Index()
         {
-            string userId = UserManager;
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (userId == null)
             {
                 return RedirectToAction("Login", "Account");
