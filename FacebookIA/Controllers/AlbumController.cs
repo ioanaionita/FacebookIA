@@ -19,7 +19,7 @@ namespace Facebook.Controllers
         // GET: Album
         public ActionResult Index(int id)
         {
-            if (User.FindFirst(ClaimTypes.NameIdentifier).Value == null)
+            if (User.FindFirst(ClaimTypes.NameIdentifier)?.Value == null)
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -40,7 +40,7 @@ namespace Facebook.Controllers
         }
         public ActionResult New(string userId)
         {
-            if(User.FindFirst(ClaimTypes.NameIdentifier).Value == null)
+            if(User.FindFirst(ClaimTypes.NameIdentifier)?.Value == null)
             {
                 return RedirectToAction("Login", "Account");
             }

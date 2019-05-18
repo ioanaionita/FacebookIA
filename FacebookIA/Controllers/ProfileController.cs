@@ -69,7 +69,7 @@ namespace Facebook.Controllers
             ViewBag.guestUser = false;
             var albums = db.Albums.Where(a => a.UserId == profile.UserId);
             ViewBag.albums = albums;
-            if (User.FindFirst(ClaimTypes.NameIdentifier).Value == null)
+            if (User.FindFirst(ClaimTypes.NameIdentifier)?.Value == null)
             {
                 ViewBag.guestUser = true;
                 return View(profile);

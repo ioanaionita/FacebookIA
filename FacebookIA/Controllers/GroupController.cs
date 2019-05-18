@@ -17,7 +17,7 @@ namespace Facebook.Controllers
         public ActionResult Index()
 
         {
-            if(User.FindFirst(ClaimTypes.NameIdentifier).Value == null)
+            if(User.FindFirst(ClaimTypes.NameIdentifier)?.Value == null)
             {
                 return RedirectToAction("Login", "Account");
             }

@@ -3,28 +3,30 @@ using FacebookDAW.Models;
 using FacebookIA;
 using FacebookIA.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.ML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
-
+using static Microsoft.ML.DataOperationsCatalog;
 
 namespace Facebook.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext db;
-        
-        public HomeController(ApplicationDbContext _db)
+        private readonly Program program;
+
+        public HomeController(ApplicationDbContext _db, Program prog)
         {
             db = _db;
+            program = prog;
         }
         public ActionResult Index()
         {
-            string[] args;
-            Program program = new Program();
-            //program.Main();
+            //Program.Main();
+
             ViewBag.loggedUser = false;
             if(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!= null)
             {

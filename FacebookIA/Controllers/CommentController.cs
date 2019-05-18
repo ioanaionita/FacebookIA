@@ -1,5 +1,6 @@
 ﻿using Facebook.Models;
 using FacebookDAW.Models;
+using FacebookIA;
 using FacebookIA.Data;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -58,6 +59,7 @@ namespace Facebook.Controllers
             //status = 1 -> comentariu acceptat, ce va fi afisat
             //status = 0 -> comentariu pending, asteapta sa fie acceptat sau refuzat de cel ce are poza
             //status = -1 -> comentariu refuzat, nu va fi niciodata afisat
+
             if(profile == ownerProfile)
             {
                 comment.AcceptedStatus = 1;    
