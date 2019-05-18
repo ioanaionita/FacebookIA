@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Groups";
+}
+
+<!-- Breadcrumb Area Start -->
+<section style="width:100%;" class="breadcrumb-area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <h2>@ViewBag.Title</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="~/Home/Index"><i class="icon_house_alt"></i> Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Groups</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Area End -->
+@if (TempData.ContainsKey("grup"))
+{
+    <h3 class="alert alert-info" role="alert">@ViewBag.grup</h3>
+}
+<a class="btn btn-sm akame-btn" href="/Group/New/">Add new group</a>
+<br />
+@if (ViewBag.Groups != null)
+{
+    foreach (FacebookDAW.Models.Group g in ViewBag.Groups)
+    {
+        <div class="card d-inline-block bg-light" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@g.Name</h5>
+                <p class="card-text"><small>created at: @g.CreatedDate</small></p>
+                <a class="btn btn-sm akame-btn" href="/Group/JoinGroup/@g.Id">Join Group</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p class="font-italic">There are no groups yet.</p>
+}

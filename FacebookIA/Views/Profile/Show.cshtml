@@ -1,0 +1,105 @@
+﻿@model FacebookDAW.Models.Profile
+@{
+    /**/
+
+    ViewBag.Title = "My profile";
+    int profileId = (int)ViewBag.Profile.Id;
+}
+
+<br />
+<!-- Akame About Area Start -->
+<section class="akame--about--area">
+    <div class="container">
+        <div class="row">
+            <!-- Section Heading -->
+            <div class="col-12 col-lg-6">
+                <div class="section-heading text-right mb-80 pr-5 pt-3">
+                    <p>From @Model.City, @Model.Country</p>
+                    <h2>@Model.FirstName @Model.LastName</h2>
+                    <span>My profile</span>
+
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="about--us--content mb-80">
+                    @if (ViewBag.Private)
+                    {
+                        <p class="font-italic"> Acest profil este privat.</p>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-sm-4 font-italic">
+                                Date of birth:
+                            </div>
+                            <div class="col-sm-8 font-italic">
+                                @Model.DateOfBirth
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Akame About Area End -->
+    @if (ViewBag.guestUser == false)
+    {
+        if (TempData.ContainsKey("update"))
+        {
+            <h3 class="alert alert-info" role="alert">@ViewBag.update</h3>
+        }
+        if (@Model.UserId != ViewBag.currentUser)
+        {
+
+            if (ViewBag.alreadyFriends)
+            {
+                <button type="submit" class="btn" style="background-color:#BEA756;color:white;" disabled>Friends</button>
+            }
+            if (ViewBag.friendRequestSent == true && ViewBag.alreadyFriends == false)
+            {
+                <button type="submit" class="btn" style="background-color:#BEA756;color:white;" disabled>Friend request sent</button>
+            }
+            if (ViewBag.acceptFriendRequest == true && ViewBag.alreadyFriends == false)
+            {
+                <form method="post" action="/Profile/AcceptFriendRequest/@Model.Id">
+                    <button type="submit" class="btn" style="background-color:#BEA756;color:white;"> Accept friend request</button>
+
+                </form>
+            }
+            if (ViewBag.alreadyFriends == false && ViewBag.friendRequestSent == false && ViewBag.acceptFriendRequest == false)
+            {
+                <form method="post" action="/Profile/AddFriend/@Model.Id">
+                    <button type="submit" class="btn" style="background-color:#BEA756;color:white;"> Add friend</button>
+                </form>
+            }
+        }
+        if (ViewBag.Private && !ViewBag.alreadyFriends)
+        {
+            <p class="font-italic">Acest profil este privat.</p>
+        }
+        else
+        {
+            <a class="btn akame-btn active mt-30" href="/Profile/FriendsAndGroups/@Model.Id"> View friends and groups</a>
+        }
+
+        if (ViewBag.allowEdit)
+        {
+            <a class="btn akame-btn active mt-30" href="/Profile/Edit/@Model.Id"> Update profile </a>
+        }
+
+    }
+<hr />
+<h2>@Model.FirstName @Model.LastName's albums</h2>
+@foreach(FacebookDAW.Models.Album a in ViewBag.albums)
+    {
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@a.Name</h5>
+            <a href="/Album/Show/@a.Id" class="btn akame-btn">See album</a>
+        </div>
+    </div>
+    }
+

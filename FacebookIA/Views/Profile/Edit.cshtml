@@ -1,0 +1,44 @@
+﻿@model FacebookDAW.Models.Profile
+
+@{
+    ViewBag.Titlu = "Edit profile";
+}
+
+<h2>@ViewBag.Titlu</h2>
+<form method="post" action="/Profile/Edit/@Model.Id">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.HiddenFor(m => m.UserId)
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.Label("FirstName", "First name")
+    <br />
+    @Html.TextBox("FirstName", null, new { @class = "form-control", required = "required" })
+    @Html.ValidationMessageFor(model => model.FirstName, null, new { @class = "text-danger " })
+    <br /><br />
+    @Html.Label("LastName", "Last name")
+    <br />
+    @Html.TextBox("LastName", null, new { @class = "form-control", required = "required" })
+    @Html.ValidationMessageFor(model => model.FirstName, null, new { @class = "text-danger " })
+    <br /><br />
+    @Html.Label("DateOfBirth", "Birth date")
+    <br />
+    @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control", @id = "date" })
+    <br /><br />
+    @Html.Label("City", "City")
+    <br />
+    @Html.TextBox("City", null, new { @class = "form-control", required = "required" })
+    @Html.ValidationMessageFor(model => model.City, null, new { @class = "text-danger " })
+    <br /><br />
+    @Html.Label("Country", "Country")
+    <br />
+    @Html.TextBox("Country", null, new { @class = "form-control", required = "required" })
+    @Html.ValidationMessageFor(model => model.Country, null, new { @class = "text-danger " })
+    <br /><br />
+    @Html.Label("ProfileVisibility", "Profile Visibility")
+    <br />
+    @Html.RadioButton("ProfileVisibility", false)@Html.Label("Public")
+    <br />
+    @Html.RadioButton("ProfileVisibility", true)@Html.Label("Private")
+
+    <button class="btn btn-sm btn-success" type="submit">Update profile</button>
+</form>

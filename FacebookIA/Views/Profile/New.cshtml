@@ -1,0 +1,103 @@
+﻿@model FacebookDAW.Models.Profile
+@{
+    ViewBag.Title = "New Profile";
+}
+
+<!-- Breadcrumb Area Start -->
+<section class="breadcrumb-area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <h2>@ViewBag.Title</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="~/Home/Index"><i class="icon_house_alt"></i> Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">New Profile</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Area End -->
+<div class="form-group bg-light" style="border-radius:20px;">
+    <form method="post" action="/Profile/New">
+        @Html.HiddenFor(m => m.UserId)
+        <div style="padding:10%;">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h5>@Html.Label("FirstName", "First name")</h5>
+                </div>
+                <div class="col-sm-8">
+                    @Html.TextBox("FirstName", null, new { @class = "form-control", required = "required", placeholder = "Enter your first name" })
+                    @Html.ValidationMessageFor(model => model.FirstName, null, new { @class = "text-danger " })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <h5>@Html.Label("LastName", "Last name")</h5>
+                </div>
+                <div class="col-sm-8">
+                    @Html.TextBox("LastName", null, new { @class = "form-control", required = "required", placeholder = "Enter your last name" })
+                    @Html.ValidationMessageFor(model => model.FirstName, null, new { @class = "text-danger " })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <h5>@Html.Label("DateOfBirth", "Birth date")</h5>
+                </div>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control", @id = "date", placeholder = "Enter your birth date" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <h5>@Html.Label("City", "City")</h5>
+                </div>
+                <div class="col-sm-8">
+                    @Html.TextBox("City", null, new { @class = "form-control", required = "required", placeholder = "Enter your current city" })
+                    @Html.ValidationMessageFor(model => model.City, null, new { @class = "text-danger " })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <h5>@Html.Label("Country", "Country")</h5>
+                </div>
+                <div class="col-sm-8">
+                    @Html.TextBox("Country", null, new { @class = "form-control", required = "required", placeholder = "Enter your current country" })
+                    @Html.ValidationMessageFor(model => model.Country, null, new { @class = "text-danger " })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <h5>@Html.Label("ProfileVisibility", "Profile Visibility")</h5>
+                </div>
+                <div class="col-sm-8">
+                    @Html.RadioButton("ProfileVisibility", false)@Html.Label("Public")
+                    <br />
+                    @Html.RadioButton("ProfileVisibility", true)@Html.Label("Private")
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-sm" style="background-color:#BEA756;color:white;" type="submit">Add profile</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    document.getElementById("date").value = "";
+</script>
+<link rel="stylesheet" href="~/Scripts/jquery-3.3.1.js" />
+<link rel="stylesheet" href="~/Scripts/bootstrap.js" />

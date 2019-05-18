@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "FriendsAndGroups";
+}
+
+<h2>@ViewBag.profile.LastName @ViewBag.profile.FirstName's friends:</h2>
+@if (ViewBag.numberOfFriends != 0 )
+{
+    <ul>
+        @foreach (FacebookDAW.Models.Profile friend in ViewBag.friends)
+        {
+            <li><a href="/Profile/Show/@friend.Id">@friend.LastName @friend.FirstName</a></li>
+        }
+    </ul>
+}
+else
+{
+    <p> No friends yet.</p>
+}
+<hr />
+<h2>@ViewBag.profile.LastName @ViewBag.profile.FirstName's groups:</h2>
+@if (ViewBag.numberOfGroups != 0 )
+{
+    <ul>
+        @foreach (FacebookDAW.Models.Group group in ViewBag.groups)
+        {
+            <li>@group.Name</li>
+        }
+    </ul>
+}
+else
+{
+    <p> No groups yet.</p>
+}
+
+

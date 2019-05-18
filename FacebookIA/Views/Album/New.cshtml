@@ -1,0 +1,44 @@
+﻿@model FacebookDAW.Models.Album
+@{
+    ViewBag.Title = "New Album";
+}
+
+<!-- Breadcrumb Area Start -->
+<section style="width:100%;" class="breadcrumb-area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <h2>@ViewBag.Title</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="~/Home/Index"><i class="icon_house_alt"></i> Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">New album</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Area End -->
+<div class="form-group bg-light" style="border-radius:20px;">
+    <form method="post" action="/Album/New">
+        @Html.HiddenFor(m => m.UserId)
+        <div style="padding:10%;">
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.Label("Name", "Name")
+                </div>
+                <div class="col-sm-8">
+                    @Html.TextBox("Name", null, new { @class = "form-control", required = "required", placeholder = "Type your album's name" })
+                    @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger " })
+            
+                </div>
+            </div>
+                    <button class="btn btn-sm btn-success" type="submit">Adauga album</button>
+       </div>
+</form>
+</div>
+
+

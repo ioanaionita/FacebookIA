@@ -1,0 +1,66 @@
+﻿@model FacebookDAW.Models.Message
+@{
+    ViewBag.Title = "MessageBox";
+}
+@if (ViewBag.groupName != null)
+{
+    <h3>@ViewBag.groupName</h3>
+}
+@if (ViewBag.firstnameFriend != null && ViewBag.lastnameFriend != null)
+{
+<h3>@ViewBag.firstnameFriend @ViewBag.lastnameFriend</h3>
+}
+<br />
+<br />
+<div class="bg-light">
+    <!-- daca exista obiectul Chat cu cele doua persoane in baza de date, afisam in conversatie mesajele vechi -->
+    @if (ViewBag.oldMessages != null && ViewBag.oldMessages.Count != 0)
+    {
+        <div id="oldMessages" style="height:300px; overflow-y: scroll;">
+            <ul class="list-group">
+                @foreach (var message in ViewBag.oldMessages)
+                {
+                    <li class="list-group-item">
+                        <strong>@message.Sender.FirstName : </strong> @message.Content
+
+
+                        @if (message.SenderId == ViewBag.myId || ViewBag.allowDelete)
+                        {
+                            if (message.SenderId == ViewBag.myId && ViewBag.groupAllowDelete)
+                            {
+                                <a class="btn btn-sm btn-danger" href="/Chat/DeleteMessage/@message.Id">Delete message</a>
+                            }
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-8">
+                                </div>
+                                <div class="col-sm-4">
+                                    <a class="btn btn-sm btn-primary" href="/Chat/EditMessage/@message.Id">Edit message</a>
+                                </div>
+                            </div>
+                         }
+
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <p class="font-italic">No older messages</p>
+    }
+    <!--trimiterea unui nou mesaj-->
+    <form method="post" action="/Chat/NewMessage/">
+        <div class="row">
+            @Html.HiddenFor(m => m.SenderId, new { value = ViewBag.SenderId })
+            @Html.HiddenFor(m => m.ChatId, new { value = ViewBag.chatId })
+            <div class="col-sm-8">
+                @Html.TextBoxFor(m => m.Content, null, new { @class = "form-control", required = "required", placeholder = "Type your message" })
+                @Html.HiddenFor(m => m.SendDate)
+            </div>
+            <div class="col-sm-4">
+                <button class="btn btn-sm btn-success" onClick="getSendDate()" type="submit">Send message</button>
+            </div>
+        </div>
+      </form>
+</div>

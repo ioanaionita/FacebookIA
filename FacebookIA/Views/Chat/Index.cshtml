@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Chat";
+}
+
+<!-- Breadcrumb Area Start -->
+<section style="width:100%;" class="breadcrumb-area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <h2>@ViewBag.Title</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="~/Home/Index"><i class="icon_house_alt"></i> Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">My chats</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Area End -->
+<p>@ViewBag.innerMessage</p>
+@if (ViewBag.myFriends != null)
+{
+    <h3>Friend chats</h3>
+}
+<div class="container">
+    <ul class="list-group">
+        @foreach (FacebookDAW.Models.Profile profile in ViewBag.myFriends)
+        {
+            //la click pe numele unui prieten, se apeleaza metoda StartChat din controller,
+            //pt a incepe o conversatie
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="/Chat/StartNormalChat/@profile.Id">
+                    <strong>@profile.FirstName @profile.LastName</strong>
+                </a>
+                <!--<span class="badge badge-primary badge-pill">14</span> pt nr de mesaje necitite-->
+            </li>
+        }
+    </ul>
+</div>
+@if (ViewBag.myGroups.Count != 0)
+{
+    <h3>Group chats</h3>
+}
+<div class="container">
+    <ul class="list-group">
+        @foreach (FacebookDAW.Models.Group group in ViewBag.myGroups)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="/Chat/StartGroupChat/@group.Id">
+                    <strong>@group.Name</strong>
+                </a>
+            </li>
+        }
+    </ul>
+</div>

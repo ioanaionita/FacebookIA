@@ -1,0 +1,15 @@
+﻿@model FacebookDAW.Models.Message
+
+
+<h2>Edit your message</h2>
+<form method="post" action="/Chat/EditMessage/@Model.Id">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.HiddenFor(m => m.ChatId)
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <br />
+    @Html.TextBox("Content", null, new { @class = "form-control", required = "required" })
+    @Html.ValidationMessageFor(model => model.Content, null, new { @class = "text-danger " })
+    <button class="btn btn-sm btn-success" type="submit">Update message</button>
+</form>
+
+

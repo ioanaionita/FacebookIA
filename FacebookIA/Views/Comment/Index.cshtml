@@ -1,0 +1,79 @@
+﻿@model FacebookDAW.Models.Comment
+@{
+    ViewBag.Title = "Index";
+}
+<!-- Breadcrumb Area Start -->
+<section class="breadcrumb-area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <h2>@ViewBag.albumName</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="~/Albums/Show/@ViewBag.albumId"><i class="icon_house_alt"></i> @ViewBag.albumName</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Pictures</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Area End -->
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+    <br />
+}
+@if (TempData.ContainsKey("pending"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["pending"]</h3>
+    <br />
+
+}
+
+<div class="card">
+    <div class="card-body">
+        <img src="@Url.Content(ViewBag.currentPhoto)" height="100px" weight="100px" alt="Sper sa nu apara mesajul asta" />
+        <br />
+        <br />
+        @if (ViewBag.comments == null)
+        {
+            <p>There are no comments yet.</p>
+        }
+
+        else
+        {
+            foreach (FacebookDAW.Models.Comment c in ViewBag.comments)
+            {
+                if (c.AcceptedStatus == 1)
+                {
+                    <div class="card" style="border-radius:25px;">
+                        <div class="card-body">
+                            <p><strong>@c.FirstNameUser @c.LastNameUser</strong></p>
+                            <p>@c.Content</p>
+                            <small style="color:grey">@c.DateCreated</small>
+                            @if (ViewBag.allowDelete)
+                            {
+                                <a class="btn btn-sm btn-danger" href="/Comment/Delete/@c.Id">Delete comment</a>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        }
+        <form method="post" action="/Comment/New/@ViewBag.currentPhotoId">
+            @Html.HiddenFor(m => m.UserId)
+            @Html.HiddenFor(m => m.PhotoId)
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            <br />
+            <div class="input-group">
+                @Html.TextBox("Content", null, new { @class = "form-control", required = "required", placeholder = "Leave a comment" })
+                <span class="input-group-btn">
+                    <button class="btn btn-sm btn-success" type="submit">Add comment</button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>

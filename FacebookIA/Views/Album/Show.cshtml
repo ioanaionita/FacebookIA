@@ -1,0 +1,69 @@
+﻿@model FacebookDAW.Models.Album
+@{
+    /**/
+
+    ViewBag.Title = "Show";
+}
+<!-- Breadcrumb Area Start -->
+<section class="breadcrumb-area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <h2>@Model.Name</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="~/Home/Index"><i class="icon_house_alt"></i> Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Area End -->
+<hr />
+@if (!ViewBag.allowLike)
+{
+    using (Html.BeginForm("AddPicture", "Album", FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
+    {
+        <input type="hidden" value="@Model.Id" id="albumId" name="albumId" />
+        <label for="file">Add new image:</label>
+        <input class="akame-btn" type="file" name="file" id="file" /><br><br>
+        <input class="akame-btn" type="submit" value="Upload image" />
+        <br><br>
+        @ViewBag.Message
+    }
+}
+<hr />
+@foreach (FacebookDAW.Models.Photo p in ViewBag.photos)
+{
+    <div class="card d-inline-block" style="width: 18rem;">
+        <img class="card-img-top" src="@Url.Content(p.Description)" alt="Card image cap">
+        <div class="card-body">
+            @if (p.Likes == 1)
+            {
+                <small class="font-italic" style="color:grey;">1 person appreciates this photo</small>
+            }
+            else
+            {
+                <small class="font-italic" style="color:grey;">@p.Likes people appreciate this photo</small>
+            }
+            @if (!ViewBag.userProfile.LikedPhotos.Contains(p) && !p.PeopleThatLiked.Contains(ViewBag.userProfile) && ViewBag.userProfile != ViewBag.currentProfile)
+            {
+                <a class="btn btn-sm btn-success" href="/Album/Like/@p.Id">Like photo</a>
+            }
+            <a class="btn btn-sm btn-success" href="/Comment/Index/@p.Id">View comments</a>
+            @if (ViewBag.allowDelete)
+            {
+                <a class="btn btn-sm btn-danger" href="/Album/DeletePhoto/@p.Id">Delete photo</a>
+            }
+        </div>
+    </div>
+}
+
+
+
+
