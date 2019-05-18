@@ -2,11 +2,13 @@
 using FacebookDAW.Models;
 using FacebookIA.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 
 namespace Facebook.Controllers
@@ -17,7 +19,7 @@ namespace Facebook.Controllers
         // GET: Album
         public ActionResult Index(int id)
         {
-            if (User.Identity.GetUserId() == null)
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value == null)
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -27,7 +29,7 @@ namespace Facebook.Controllers
             Profile profile = _db.Profiles.Find(id);
             ViewBag.FirstName = profile.FirstName;
             ViewBag.LastName = profile.LastName;
-            string currentUser = User.Identity.GetUserId();
+            string currentUser = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             ViewBag.Delete = false;
             if(User.IsInRole("Administrator") || currentUser == userId)
             {
@@ -38,7 +40,7 @@ namespace Facebook.Controllers
         }
         public ActionResult New(string userId)
         {
-            if(User.Identity.GetUserId() == null)
+            if(User.FindFirst(ClaimTypes.NameIdentifier).Value == null)
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -55,7 +57,7 @@ namespace Facebook.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string userId = User.Identity.GetUserId();
+                    string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                     album.UserId = userId;
                     _db.Albums.Add(album);
                     string userProfile = album.UserId;
@@ -82,36 +84,37 @@ namespace Facebook.Controllers
             ViewBag.photos = photos;
             string userId = album.UserId;
             ViewBag.allowLike = false;
-            if(userId != User.Identity.GetUserId())
+            if(userId != User.FindFirst(ClaimTypes.NameIdentifier).Value)
             {
                 ViewBag.allowLike = true;
             }
-            string currentUserId = User.Identity.GetUserId();
+            string currentUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Profile userProfile = _db.Profiles.SingleOrDefault(u => u.UserId == currentUserId);
             ViewBag.userProfile = userProfile;
             ViewBag.currentProfile = _db.Profiles.SingleOrDefault(p => p.UserId == userId);
             ViewBag.allowDelete = false;
-            if(User.IsInRole("Administrator") || userId == User.Identity.GetUserId())
+            if(User.IsInRole("Administrator") || userId == User.FindFirst(ClaimTypes.NameIdentifier).Value)
             {
                 ViewBag.allowDelete = true;
             }
             return View(album);
         }
         //[HttpPost]
-        public ActionResult AddPicture(int albumId, HttpPostedFileBase file)
+        public ActionResult AddPicture(int albumId, IFormFile file)
         {
-            if (file != null && file.ContentLength > 0)
+            if (file != null && file.Length > 0)
                 try
                 {
-                    string path = Path.Combine(Server.MapPath("~/Images"),
-                                               Path.GetFileName(file.FileName));
+                    /*string path = Path.Combine(Server.MapPath("~/Images"),
+                                               Path.GetFileName(file.FileName));*/
+                    var path = new FileStream("D:\\Ioana\\Dezvoltarea aplicatiilor web\\FacebookIA\\FacebookIA", FileMode.Create);
                     Photo photo = new Photo();
                     photo.Description = "~/Images/" + file.FileName;
                     
                     photo.AlbumId = albumId;
                     _db.Photos.Add(photo);
                     _db.SaveChanges();
-                    file.SaveAs(path);
+                    file.CopyTo(path);
                     ViewBag.Message = "File uploaded successfully";
                 }
                 catch (Exception ex)
@@ -130,7 +133,7 @@ namespace Facebook.Controllers
             Photo currentPhoto = _db.Photos.Find(id);
             Album currentAlbum = _db.Albums.SingleOrDefault(a => a.Id == currentPhoto.AlbumId);
             Profile currentProfile = _db.Profiles.SingleOrDefault(p => p.UserId == currentAlbum.UserId);
-            string currentUser = User.Identity.GetUserId();
+            string currentUser = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Profile userProfile = _db.Profiles.SingleOrDefault(p => p.UserId == currentUser);
             //Tuple<Photo, Profile> tuplu = new Tuple<Photo, Profile>(currentPhoto, userProfile);
             if(currentPhoto.PeopleThatLiked == null)

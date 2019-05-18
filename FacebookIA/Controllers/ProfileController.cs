@@ -1,5 +1,6 @@
 ﻿using Facebook.Models;
 using FacebookDAW.Models;
+using FacebookIA.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace Facebook.Controllers
 {
     public class ProfileController : Controller
     {
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private readonly ApplicationDbContext db;
         // GET: Profile
         public ActionResult Index(string name = "")
         {

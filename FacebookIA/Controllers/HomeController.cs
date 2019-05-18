@@ -18,12 +18,12 @@ namespace Facebook.Controllers
         public ActionResult Index()
         {
             Program program = new Program();
-            program.Main();
+            //program.Main();
             ViewBag.loggedUser = false;
             if(User.FindFirst(ClaimTypes.NameIdentifier).Value!= null)
             {
                 ViewBag.loggedUser = true;
-                string userId = ;
+                string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 Profile currentProfile = db.Profiles.SingleOrDefault(p => p.UserId == userId);
                 if (currentProfile != null)
                 {
