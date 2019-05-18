@@ -12,7 +12,7 @@ namespace Facebook.Controllers
 {
     public class GroupController : Controller
     {
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private ApplicationDbContext db;
         // GET: Group
         public ActionResult Index()
 

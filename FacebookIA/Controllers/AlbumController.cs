@@ -15,7 +15,7 @@ namespace Facebook.Controllers
 {
     public class AlbumController : Controller
     {
-        private ApplicationDbContext _db = ApplicationDbContext.Create();
+        private ApplicationDbContext _db;
         // GET: Album
         public ActionResult Index(int id)
         {

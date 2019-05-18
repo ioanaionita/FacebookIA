@@ -12,7 +12,7 @@ namespace Facebook.Controllers
 {
     public class CommentController : Controller
     {
-        private ApplicationDbContext _db = ApplicationDbContext.Create();
+        private ApplicationDbContext _db;
         // GET: Comment
         public ActionResult Index(int id)
         {

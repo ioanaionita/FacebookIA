@@ -13,9 +13,8 @@ namespace FacebookIA.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+         : base(options)
         {
-            
         }
         public DbSet<Album> Albums { get; set; }
         public DbSet<Photo> Photos { get; set; }
@@ -25,10 +24,7 @@ namespace FacebookIA.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

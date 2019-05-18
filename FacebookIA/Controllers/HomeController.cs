@@ -14,13 +14,13 @@ namespace Facebook.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private ApplicationDbContext db;
         public ActionResult Index()
         {
             Program program = new Program();
             //program.Main();
             ViewBag.loggedUser = false;
-            if(User.FindFirst(ClaimTypes.NameIdentifier).Value!= null)
+            if(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!= null)
             {
                 ViewBag.loggedUser = true;
                 string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

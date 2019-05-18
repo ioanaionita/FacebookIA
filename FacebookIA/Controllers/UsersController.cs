@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 
 
@@ -17,7 +18,7 @@ namespace Facebook.Controllers
     [Authorize(Roles = "Administrator")]
     public class UsersController : Controller
     {
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private ApplicationDbContext db;
         // GET: Users
         public ActionResult Index()
         {
@@ -31,8 +32,8 @@ namespace Facebook.Controllers
         {
             ApplicationUser user = db.Users.Find(id);
             user.AllRoles = GetAllRoles();
-            var userRole = user.Roles.FirstOrDefault();
-            ViewBag.userRole = userRole.RoleId;
+            //var userRole = user.Roles.FirstOrDefault();
+            //ViewBag.userRole = userRole.RoleId;
             return View(user);
         }
         [NonAction]
@@ -50,17 +51,17 @@ namespace Facebook.Controllers
             }
             return selectList;
         }
-        [HttpPut]
+        /*[HttpPut]
         public ActionResult Edit(string id, ApplicationUser newData)
         {
             ApplicationUser user = db.Users.Find(id);
             //user.AllRoles = GetAllRoles();
             //var userRole = user.Roles.FirstOrDefault();
-            var userRole = GetAllRoles().FirstOrDefault();
-            ViewBag.userRole = userRole.RoleId;
+            //var userRole = GetAllRoles().FirstOrDefault();
+            ViewBag.userRole = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             try
             {
-                ApplicationDbContext context = new ApplicationDbContext();
+                ApplicationDbContext context = ApplicationDbContext.Create();
                 var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
                 var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 //if (TryUpdateModel(user))
@@ -84,6 +85,6 @@ namespace Facebook.Controllers
                 Response.Write(e.Message);
                 return View(user);
             }
-        }
+        }*/
     }
 }

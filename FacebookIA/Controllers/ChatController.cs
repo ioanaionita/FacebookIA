@@ -17,7 +17,7 @@ namespace Facebook.Controllers
 {
     public class ChatController : Controller
     {
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private ApplicationDbContext db;
         // GET: Chat
         public ActionResult Index()
         {
@@ -70,7 +70,7 @@ namespace Facebook.Controllers
         {
             
             //ViewBag.friendId = id;
-            string myId = User.Identity.GetUserId();
+            string myId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //ViewBag.myId = myId;
           
             Profile friendProfile = db.Profiles.Find(id);
@@ -169,7 +169,7 @@ namespace Facebook.Controllers
         public ActionResult DeleteMessage(int id)
         {
             Message deletedMessage = db.Messages.Find(id);
-            string userId = User.Identity.GetUserId();
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Profile currentProfile = db.Profiles.SingleOrDefault(p => p.UserId == userId);
             int chatId = deletedMessage.ChatId;
             Chat currentChat = db.Chats.Find(chatId);
@@ -202,12 +202,12 @@ namespace Facebook.Controllers
                 if (ModelState.IsValid)
                 {
                     Message message = db.Messages.Find(id);
-                    if (TryUpdateModel(message))
-                    {
+                    //if (TryUpdateModel(message))
+                    //{
                         message.Content = requestMessage.Content;   
                         db.SaveChanges();
 
-                    }
+                    //}
                     return RedirectToAction("EditMessage", "Chat", new { id = message.Id });
                 }
                 else

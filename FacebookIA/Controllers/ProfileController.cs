@@ -15,7 +15,7 @@ namespace Facebook.Controllers
 {
     public class ProfileController : Controller
     {
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private readonly ApplicationDbContext db;
         // GET: Profile
         public ActionResult Index(string name = "")
         {
@@ -267,7 +267,7 @@ namespace Facebook.Controllers
         {
             
             Profile profil = db.Profiles.Find(id);
-            string idUser = User.Identity.GetUserId();
+            string idUser = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Profile profilSender = db.Profiles.SingleOrDefault(p => p.UserId == idUser);
                 if(profilSender != null)
                     {
@@ -305,7 +305,7 @@ namespace Facebook.Controllers
         public ActionResult AcceptFriendRequest(int id)
         {
             Profile profil = db.Profiles.Find(id);
-            string idUser = User.Identity.GetUserId();
+            string idUser = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Profile profilSender = db.Profiles.SingleOrDefault(p => p.UserId == idUser);
             //caut notificarea asociata userului, deoarece userul a primit cererea de prietenie 
             //de la profilul pe care se afla
