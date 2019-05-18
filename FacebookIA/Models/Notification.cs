@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -18,6 +19,7 @@ namespace Facebook.Models
         public virtual ICollection<Profile> FriendRequests { get; set; }
 
         //id poza si id user care a dat like
+        [NotMapped]
         public virtual ICollection<Tuple<Photo, Profile>> Likes { get; set; }
     }
 }

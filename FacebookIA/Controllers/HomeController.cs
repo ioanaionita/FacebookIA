@@ -14,16 +14,26 @@ namespace Facebook.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext db;
+        private readonly ApplicationDbContext db;
+        
+        public HomeController(ApplicationDbContext _db)
+        {
+            db = _db;
+        }
         public ActionResult Index()
         {
+            string[] args;
             Program program = new Program();
             //program.Main();
             ViewBag.loggedUser = false;
             if(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!= null)
             {
                 ViewBag.loggedUser = true;
-                string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if(userId == null)
+                {
+                    userId = "0";
+                }
                 Profile currentProfile = db.Profiles.SingleOrDefault(p => p.UserId == userId);
                 if (currentProfile != null)
                 {
