@@ -208,7 +208,7 @@ namespace Facebook.Controllers
                         db.SaveChanges();
 
                     //}
-                    return RedirectToAction("EditMessage", "Chat", new { id = message.Id });
+                    return RedirectToAction( "EditMessage", "Chat", new { id = message.Id });
                 }
                 else
                 {

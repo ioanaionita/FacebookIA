@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using FacebookIA.Data;
 using FacebookIA.Models;
 using FacebookIA.Services;
+using Facebook;
+using Microsoft.Extensions.ML;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FacebookIA
 {
@@ -36,7 +39,10 @@ namespace FacebookIA
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.AddMvc();
+            //services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddPredictionEnginePool<SentimentData, SentimentPrediction>()
+                .FromFile("MLModels/sentiment_model.zip");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

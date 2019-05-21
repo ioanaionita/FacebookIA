@@ -21,7 +21,7 @@ namespace Facebook.Controllers
         public HomeController(ApplicationDbContext _db, Program prog)
         {
             db = _db;
-            program = prog;
+            program =prog;
         }
         public ActionResult Index()
         {

@@ -67,7 +67,7 @@ namespace Facebook.Controllers
             else
             {
                 comment.AcceptedStatus = 0;
-                TempData["pending"] = "Comentariul va fi acceptat/refuzat de catre proprietarul pozei.";
+                TempData["pending"] = " Comentariul va fi acceptat/refuzat de catre proprietarul pozei.";
             }
             _db.Comments.Add(comment);
             _db.SaveChanges();

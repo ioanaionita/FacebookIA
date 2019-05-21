@@ -33,7 +33,7 @@ namespace Facebook.Controllers
                 Profile profilCurrent = db.Profiles.SingleOrDefault(p => p.UserId == userId);
                 foreach (Group g in db.Groups)
                 {
-                    if (!profilCurrent.Groups.Contains(g))
+                    if ( !profilCurrent.Groups.Contains(g))
                     {
                         groups.Add(g);
                     }

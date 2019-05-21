@@ -116,6 +116,7 @@ namespace Facebook.Controllers
             //atunci userului curent ii va aparea sa accepte cererea primita, "Accept friend request"
             if (profile.SentFriendRequests.Contains(profilUser))
             {
+
                 ViewBag.acceptFriendRequest = true;
             }
             else

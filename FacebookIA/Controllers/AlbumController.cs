@@ -17,7 +17,7 @@ namespace Facebook.Controllers
     {
         private ApplicationDbContext _db;
         // GET: Album
-        public ActionResult Index(int id)
+        public ActionResult Index(int id )
         {
             if (User.FindFirst(ClaimTypes.NameIdentifier)?.Value == null)
             {
