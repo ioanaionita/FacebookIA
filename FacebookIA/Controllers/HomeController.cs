@@ -16,12 +16,12 @@ namespace Facebook.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext db;
-        private readonly Program program;
+        //private readonly Program program;
 
-        public HomeController(ApplicationDbContext _db, Program prog)
+        public HomeController(ApplicationDbContext _db/*, Program prog*/)
         {
             db = _db;
-            program =prog;
+            //program =prog;
         }
         public ActionResult Index()
         {
